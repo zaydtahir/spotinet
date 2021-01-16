@@ -5,19 +5,19 @@ import plotly.graph_objects as go
 
 
 def make_edge(x, y, width, color):
-    return go.Scatter(x = x,
-                      y = y,
-                      line = dict(width = width,
-                                  color = color),
-                      hoverinfo = 'text',
-                      text = "",
-                      mode = 'lines')
+    return go.Scatter(x=x,
+                      y=y,
+                      line=dict(width=width,
+                                color=color),
+                      hoverinfo='text',
+                      text="",
+                      mode='lines')
 
 
 def plot(network_graph):
     # GRAPH APPEARANCE SETTINGS
-    node_size = 60
-    edge_width = 5
+    node_size = 5
+    edge_width = 2
     text_size = 10
     line_color = "darkslategrey"
     node_color = "#12813A"
@@ -39,18 +39,17 @@ def plot(network_graph):
         edge_trace.append(trace)
 
     # Make a node trace
-    node_trace = go.Scatter(x = [],
-                            y = [],
-                            text = [],
-                            textposition = "middle center",
-                            textfont_size = text_size,
-                            mode = 'markers+text',
-                            hoverinfo = 'text',
-                            marker = dict(color = [],
+    node_trace = go.Scatter(x=[],
+                            y=[],
+                            text=[],
+                            textposition="middle center",
+                            textfont_size=text_size,
+                            mode='markers+text',
+                            hoverinfo='text',
+                            marker=dict(color=[],
                                           opacity=1,
-                                          size = [],
-                                          line = dict(width=5,color=node_border_color)))
-
+                                          size=[],
+                                          line=dict(width=5, color=node_border_color)))
 
     for node in network_graph.nodes():
         x, y = pos[node]
@@ -62,23 +61,23 @@ def plot(network_graph):
 
     # Customize layout
     layout = go.Layout(
-        paper_bgcolor = 'rgba(0,0,0,0)',  # transparent background
-        plot_bgcolor = 'rgba(0,0,0,0)',  # transparent 2nd background
-        xaxis = {'showgrid': False, 'zeroline': False},  # no gridlines
-        yaxis = {'showgrid': False, 'zeroline': False},  # no gridlines
+        paper_bgcolor='rgba(0,0,0,0)',  # transparent background
+        plot_bgcolor='rgba(0,0,0,0)',  # transparent 2nd background
+        xaxis={'showgrid': False, 'zeroline': False},  # no gridlines
+        yaxis={'showgrid': False, 'zeroline': False},  # no gridlines
     )
     # Create figure
-    fig = go.Figure(layout = layout)
+    fig = go.Figure(layout=layout)
     # Add all edge traces
     for trace in edge_trace:
         fig.add_trace(trace)
     # Add node trace
     fig.add_trace(node_trace)
     # Remove legend
-    fig.update_layout(showlegend = False)
+    fig.update_layout(showlegend=False)
     # Remove tick labels
-    fig.update_xaxes(showticklabels = False)
-    fig.update_yaxes(showticklabels = False)
+    fig.update_xaxes(showticklabels=False)
+    fig.update_yaxes(showticklabels=False)
     # Hover Update
     fig.update_layout(
         hoverlabel=dict(
@@ -88,13 +87,3 @@ def plot(network_graph):
     # Show figure
     # fig.show()
     return fig
-
-
-if __name__ == "__main__":
-    with open('artist_data.json') as f:
-        artist_data = json.load(f)
-    with open('related_artist_data.json') as f:
-        related_artist_data = json.load(f)
-
-    G = create_network_graph(artist_data, related_artist_data)
-    plot(G)
