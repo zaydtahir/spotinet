@@ -5,3 +5,4 @@
 /NetworkX testing.py
 
 .ENV
+__pycache__/
