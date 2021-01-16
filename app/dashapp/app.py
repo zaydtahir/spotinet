@@ -20,7 +20,7 @@ def init_dash(server):
     return dash_app.server
 
 
-def update_dash(artist_data, related_artist_data):
+def update_dash(artist_data, related_artist_data, genre_list):
     G = create_network_graph(artist_data, related_artist_data)
     fig = plot(G)
     dash_app.layout = html.Div(
