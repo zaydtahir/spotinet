@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name = "viewport" content = "width "
+    
+    <link href = "Style.css" rel ="stylesheet" type="text/css"/>
+
     <title>Title</title>
+    <style>  
+        body {
+            font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(250,251,244);
+        }
+
+        div{
+            text-align: center;
+            border: 4px solid rgb(111,148,206);
+            padding: 16px;
+            box-shadow: 8px 8px rgb(65,95,155);
+            border-radius: 2pc;
+        }
+        h1{
+            color:rgb(233,190.84)
+        }
+
+    </style>
 </head>
+
+<div>
 <body>
-<a href="{{ url_for('login') }}">Login</a>
+    <h1>Amazing Pun</h1>
+    <h2>description </h2>
+    <a href="{{ url_for('login') }}">Login</a>
+</div>
 </body>
 </html>
