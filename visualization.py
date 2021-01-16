@@ -16,7 +16,7 @@ def make_edge(x, y, width, color):
 
 def plot(network_graph):
     # GRAPH APPEARANCE SETTINGS
-    node_size = 40
+    node_size = 60
     edge_width = 5
     text_size = 10
     line_color = "darkslategrey"
@@ -42,10 +42,10 @@ def plot(network_graph):
     node_trace = go.Scatter(x = [],
                             y = [],
                             text = [],
-                            textposition = "top center",
+                            textposition = "middle center",
                             textfont_size = text_size,
                             mode = 'markers+text',
-                            hoverinfo = 'none',
+                            hoverinfo = 'text',
                             marker = dict(color = [],
                                           opacity=1,
                                           size = [],
@@ -79,6 +79,12 @@ def plot(network_graph):
     # Remove tick labels
     fig.update_xaxes(showticklabels = False)
     fig.update_yaxes(showticklabels = False)
+    # Hover Update
+    fig.update_layout(
+        hoverlabel=dict(
+            bgcolor="white",
+            font_size=16,
+            font_family="Rockwell"))
     # Show figure
     # fig.show()
     return fig
