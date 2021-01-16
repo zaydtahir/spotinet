@@ -3,7 +3,6 @@ import json
 import pandas as pd
 import requests
 import networkx as nx
-import matplotlib.pyplot as plt
 
 
 def filter_artist_data(artist_data: dict, filter_dict: dict):
@@ -46,7 +45,7 @@ def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api
 
     for artist in artist_data:
         related_artists_endpoint = "{}/artists/{}/related-artists".format(spotify_api_url, artist)
-        related_artists_response = requests.get(related_artists_endpoint, headers = auth_header)
+        related_artists_response = requests.get(related_artists_endpoint, headers=auth_header)
         related_artists_data = json.loads(related_artists_response.text)
         related_artists_dict = {}
         for related_artist in related_artists_data['artists']:
@@ -56,35 +55,68 @@ def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api
     return filter_dict
 
 
-def create_network_graph(artist_data, related_artist_data):
+def build_df(artist_data, related_artist_data, genre_list):
     """
     :param artist_data: Dict of top artists with name and image
     :param related_artist_data: Dict of artist Id's connected to list of related artists
+    :param genre_list: List of Genres User listens to
+    :return: Pandas Data Frame with node types mapped to node names
+    """
+    # node types: 0 = origin, 1 = genre, 2 = artist, 3 = related artist
+    name = ["You"]
+    node_type = [0]
+
+    for genre in genre_list:
+        name.append(genre)
+        node_type.append(1)
+
+    for artist in artist_data.keys():
+        name.append(artist_data[artist]["name"])
+        node_type.append(2)
+
+    for artist in related_artist_data.keys():
+        try:
+            x = artist_data[artist]["name"]
+        except KeyError:
+            name.append(related_artist_data[artist]["name"])
+            node_type.append(3)
+
+    df = pd.DataFrame(list(zip(name, node_type)), columns=['name', 'node_type'])
+
+    return df
+
+
+def create_network_graph(artist_data, related_artist_data, genre_list):
+    """
+    :param artist_data: Dict of top artists with name and image
+    :param related_artist_data: Dict of artist Id's connected to list of related artists
+    :param genre_list: List of Genres User listens to
     :return: networkX object
     """
 
     source = []
     target = []
+
     you = "You"
 
-    # Add top artists and yourself to network graph
-    for artist_ids in artist_data.keys():
+    # Add genres and yourself to network graph
+    for genre in genre_list:
         target.append(you)
-        source.append(artist_data[artist_ids]["name"])
+        source.append(genre)
 
-    for artist in related_artist_data.keys():
-        for related_artist in related_artist_data[artist]:
-            try:
-                # Check if Related Artist is in top artists
-                related_artist_name = artist_data[related_artist]["name"]
+    # Connect artist to genres
+    for artist in artist_data.keys():
+        for genre in artist_data[artist]['genres']:
+            source.append(genre)
+            target.append(artist_data[artist]['name'])
 
-                source.append(artist_data[artist]["name"])
-                target.append(related_artist_name)
+    # Connect artists together
+    for related_artist in related_artist_data.keys():
+        for artist in related_artist_data[related_artist].keys():
+            source.append(related_artist_data[related_artist][artist])
+            target.append(artist_data[related_artist]['name'])
 
-            except KeyError:
-                pass
-
-    df = pd.DataFrame(list(zip(source, target)), columns = ["source", "target"])
+    df = pd.DataFrame(list(zip(source, target)), columns=["source", "target"])
     G = nx.from_pandas_edgelist(df, 'source', 'target')
 
     # Draws the Graph (testing purposes)
