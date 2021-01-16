@@ -14,13 +14,22 @@ def filter_artist_data(artist_data: dict, filter_dict: dict):
     """
     required_keys = [
         "name",
-        "images"
+        "images",
+        "genres"
     ]
 
     for artist in artist_data['items']:
         filter_dict[artist['id']] = {key: artist[key] for key in required_keys}
 
     return filter_dict
+
+
+def get_genre_list(filtered_artist_data: dict, genre_list: list):
+    for artist in filtered_artist_data:
+        for genre in filtered_artist_data[artist]['genres']:
+            if genre not in genre_list:
+                genre_list.append(genre)
+    return genre_list
 
 
 def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api_url, auth_header):

@@ -5,7 +5,7 @@ import requests
 from flask import current_app as app, redirect, request
 from flask import render_template
 
-from util import filter_artist_data, filter_related_artist_data
+from util import filter_artist_data, filter_related_artist_data, get_genre_list
 from constants import *
 
 
@@ -53,6 +53,9 @@ def callback():
 
     filtered_related_artists = {}
     filtered_related_artists = filter_related_artist_data(filtered_artists_data, filtered_related_artists, SPOTIFY_API_URL, authorization_header)
+
+    genre_list = []
+    genre_list = get_genre_list(filtered_artists_data, genre_list)
 
     from .dashapp.app import update_dash
 
