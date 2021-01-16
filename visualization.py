@@ -80,7 +80,7 @@ def plot(network_graph):
     fig.update_xaxes(showticklabels = False)
     fig.update_yaxes(showticklabels = False)
     # Show figure
-    fig.show()
+    # fig.show()
     return fig
 
 

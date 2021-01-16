@@ -11,16 +11,19 @@ from util import create_network_graph
 from visualization import plot
 
 
-def init_dash(server, ):
+def init_dash(server):
     global dash_app
     dash_app = dash.Dash(server = server, routes_pathname_prefix = "/dashapp/")
 
     dash_app.layout = html.Div()
+
+    return dash_app.server
 
 
 def update_dash(artist_data, related_artist_data):
     G = create_network_graph(artist_data, related_artist_data)
     fig = plot(G)
     dash_app.layout = html.Div(
-        dcc.Graph(figure = fig)
+        dcc.Graph(figure = fig, style = {'height': '100vh'}),
+        style = {'height': '100vh'}
     )

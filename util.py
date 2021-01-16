@@ -75,7 +75,7 @@ def create_network_graph(artist_data, related_artist_data):
             except KeyError:
                 pass
 
-    df = pd.DataFrame(list(zip(source, target)), columns=["source", "target"])
+    df = pd.DataFrame(list(zip(source, target)), columns = ["source", "target"])
     G = nx.from_pandas_edgelist(df, 'source', 'target')
 
     # Draws the Graph (testing purposes)
