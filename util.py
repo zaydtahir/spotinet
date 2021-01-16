@@ -5,7 +5,6 @@ import requests
 
 def filter_artist_data(artist_data: dict, filter_dict: dict):
     """
-
     :param artist_data: Dict of top artists with all info
     :param filter_dict: Empty dict to fill
     :return: Dict of top artists with name and image
@@ -23,7 +22,6 @@ def filter_artist_data(artist_data: dict, filter_dict: dict):
 
 def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api_url, auth_header):
     """
-
     :param artist_data: Dict of top artists with name and images
     :param filter_dict: Empty dict to fill
     :param spotify_api_url: Spotify API Base URL
