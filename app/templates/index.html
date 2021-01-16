@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width ">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    <title>Name of Our Project</title>
+</head>
+
+
+<body>
+<div class="transbox">
+    <h1>Spoti-Proj</h1>
+    <h2>About Us</h2>
+    <p>
+        Are recommended lists just too dull and lame? Fear not Spoti-Proj is here for you!
+        With Spoti-Proj, find fresh new music through navigating a dynamic network graph.
+        Zoom through various Artists and find their connections via genre.
+        Scrolling is in the past... here come links and nodes.
+    </p>
+
+    <p>
+        Lets go
+        <a
+                href="{{ url_for('login') }}">
+            <img src="{{ url_for('static', filename='img/Login2.png') }}" alt="image" width="50" class="logIn">
+        </a>
+    </p>
+
+</div>
+</body>
+</html>

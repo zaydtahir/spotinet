@@ -2,6 +2,6 @@
 /shelf/
 /workspace.xml
 /.idea/
-/NetworkX testing.py
 
 .ENV
+__pycache__/
