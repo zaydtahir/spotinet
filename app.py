@@ -7,6 +7,8 @@ from urllib.parse import quote
 from dotenv import load_dotenv
 import os
 
+from util import filter_artist_data, filter_related_artist_data
+
 app = Flask(__name__)
 
 #  Client Keys
@@ -76,9 +78,13 @@ def callback():
     top_artists_endpoint = "{}/me/top/artists".format(SPOTIFY_API_URL)
     artists_response = requests.get(top_artists_endpoint, headers = authorization_header)
     artists_data = json.loads(artists_response.text)
+    filtered_artists_data = {}
+    filtered_artists_data = filter_artist_data(artists_data, filtered_artists_data)
 
-    # Combine profile and playlist data to display
-    display_arr = [artists_data]
+    filtered_related_artists = {}
+    filtered_related_artists = filter_related_artist_data(filtered_artists_data, filtered_related_artists, SPOTIFY_API_URL, authorization_header)
+
+    display_arr = [filtered_artists_data]
     return render_template("displaytest.html", sorted_array = display_arr)
 
 
