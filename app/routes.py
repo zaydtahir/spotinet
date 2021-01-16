@@ -1,44 +1,12 @@
-# Example Used: https://github.com/drshrey/spotify-flask-auth-example
-
 import json
-from flask import Flask, request, redirect, render_template
-import requests
 from urllib.parse import quote
-from dotenv import load_dotenv
 
-load_dotenv()
-import os
+import requests
+from flask import current_app as app, redirect, request
+from flask import render_template
 
 from util import filter_artist_data, filter_related_artist_data
-
-app = Flask(__name__)
-
-#  Client Keys
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-
-# Spotify URLS
-SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
-SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token"
-SPOTIFY_API_BASE_URL = "https://api.spotify.com"
-API_VERSION = "v1"
-SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
-
-# Server-side Parameters
-CLIENT_SIDE_URL = "http://localhost"
-PORT = 8080
-REDIRECT_URI = "{}:{}/callback".format(CLIENT_SIDE_URL, PORT)
-SCOPE = "user-top-read"
-STATE = ""
-SHOW_DIALOG_bool = True
-SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
-
-auth_query_parameters = {
-    "response_type": "code",
-    "redirect_uri": REDIRECT_URI,
-    "scope": SCOPE,
-    "client_id": CLIENT_ID
-}
+from constants import *
 
 
 @app.route("/")
@@ -86,9 +54,9 @@ def callback():
     filtered_related_artists = {}
     filtered_related_artists = filter_related_artist_data(filtered_artists_data, filtered_related_artists, SPOTIFY_API_URL, authorization_header)
 
-    display_arr = [filtered_artists_data]
-    return render_template("displaytest.html", sorted_array = display_arr)
+    from .dashapp.app import update_dash
 
+    # Open the testing files here and pass them in instead if wanted
+    update_dash(filtered_artists_data, filtered_related_artists)
 
-if __name__ == "__main__":
-    app.run(debug = True, port = PORT)
+    return render_template("displaytest.html")
