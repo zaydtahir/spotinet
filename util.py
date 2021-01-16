@@ -1,6 +1,9 @@
 import json
 
+import pandas as pd
 import requests
+import networkx as nx
+import matplotlib.pyplot as plt
 
 
 def filter_artist_data(artist_data: dict, filter_dict: dict):
@@ -30,3 +33,41 @@ def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api
         filter_dict[artist] = related_artists_dict
 
     return filter_dict
+
+
+def create_network_graph(artist_data, related_artist_data):
+    """
+    :param artist_data: Dict of top artists with name and image
+    :param related_artist_data: Dict of artist Id's connected to list of related artists
+    :return: networkX object
+    """
+
+    source = []
+    target = []
+    you = "You"
+
+    # Add top artists and yourself to network graph
+    for artist_ids in artist_data.keys():
+        target.append(you)
+        source.append(artist_data[artist_ids]["name"])
+
+    for artist in related_artist_data.keys():
+        for related_artist in related_artist_data[artist]:
+            try:
+                # Check if Related Artist is in top artists
+                related_artist_name = artist_data[related_artist]["name"]
+
+                source.append(artist_data[artist]["name"])
+                target.append(related_artist_name)
+
+            except KeyError:
+                pass
+
+    df = pd.DataFrame({source: source, target: target})
+    G = nx.from_pandas_edgelist(df, 'source', 'target')
+
+    # Draws the Graph (testing purposes)
+    nx.draw(G, with_labels=True)
+    plt.show()
+
+    return G
