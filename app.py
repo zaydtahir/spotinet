@@ -5,6 +5,8 @@ from flask import Flask, request, redirect, render_template
 import requests
 from urllib.parse import quote
 from dotenv import load_dotenv
+
+load_dotenv()
 import os
 
 from util import filter_artist_data, filter_related_artist_data
@@ -23,9 +25,9 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 
 # Server-side Parameters
-CLIENT_SIDE_URL = "https://127.0.0.1"
+CLIENT_SIDE_URL = "http://localhost"
 PORT = 8080
-REDIRECT_URI = "{}:{}/callback/q".format(CLIENT_SIDE_URL, PORT)
+REDIRECT_URI = "{}:{}/callback".format(CLIENT_SIDE_URL, PORT)
 SCOPE = "user-top-read"
 STATE = ""
 SHOW_DIALOG_bool = True
@@ -51,7 +53,7 @@ def login():
     return redirect(auth_url)
 
 
-@app.route("/callback/q")
+@app.route("/callback")
 def callback():
     # Auth Step 4: Requests refresh and access tokens
     auth_token = request.args['code']
