@@ -4,6 +4,12 @@ import requests
 
 
 def filter_artist_data(artist_data: dict, filter_dict: dict):
+    """
+
+    :param artist_data: Dict of top artists with all info
+    :param filter_dict: Empty dict to fill
+    :return: Dict of top artists with name and image
+    """
     required_keys = [
         "name",
         "images"
@@ -16,6 +22,14 @@ def filter_artist_data(artist_data: dict, filter_dict: dict):
 
 
 def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api_url, auth_header):
+    """
+
+    :param artist_data: Dict of top artists with name and images
+    :param filter_dict: Empty dict to fill
+    :param spotify_api_url: Spotify API Base URL
+    :param auth_header: Authentication Header for User
+    :return: Dict of top Artist ID's to list of related artist ID's
+    """
     required_keys = [
         "name",
     ]
