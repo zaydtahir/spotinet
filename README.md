@@ -1,1 +1,1 @@
-# hackthenorth2020
+# Spotify Artist Visualizer
