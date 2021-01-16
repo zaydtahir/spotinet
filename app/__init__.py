@@ -8,6 +8,6 @@ def init_app():
         from . import routes
 
         from .dashapp.app import init_dash
-
         init_dash(app)
+
         return app

@@ -54,5 +54,8 @@ def callback():
     filtered_related_artists = {}
     filtered_related_artists = filter_related_artist_data(filtered_artists_data, filtered_related_artists, SPOTIFY_API_URL, authorization_header)
 
-    display_arr = [filtered_related_artists]
-    return render_template("displaytest.html", sorted_array = display_arr)
+    from .dashapp.app import update_dash
+
+    update_dash(filtered_artists_data, filtered_related_artists)
+
+    return render_template("displaytest.html")
