@@ -56,6 +56,7 @@ def callback():
 
     from .dashapp.app import update_dash
 
+    # Open the testing files here and pass them in instead if wanted
     update_dash(filtered_artists_data, filtered_related_artists)
 
     return render_template("displaytest.html")
