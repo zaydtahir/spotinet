@@ -43,7 +43,6 @@ auth_query_parameters = {
 
 @app.route("/")
 def index():
-    print(REDIRECT_URI)
     return render_template("index.html")
 
 
