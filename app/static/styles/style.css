@@ -6,7 +6,7 @@ body {
     height: 100vh;
 
     /*background settings*/
-    background-image: url("background3.png");
+    background-image: url("../img/background3.png");
     background-color: white;
     background-position: center;
     background-repeat: no-repeat;
@@ -25,7 +25,7 @@ body {
 
 .transbox {
     margin: 30px;
-    background-color: rgb(255, 255, 255, 0.6);
+    background-color: rgb(255, 255, 255);
     /*border: 1px solid black;*/
 }
 

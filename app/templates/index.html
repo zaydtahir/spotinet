@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width ">
-    <link rel="stylesheet" type="text/css"
-          href="style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
     <title>Name of Our Project</title>
 </head>
 
@@ -25,7 +24,7 @@
         Lets go
         <a
                 href="{{ url_for('login') }}">
-            <img alt="image" src="Login2.png" width="50" align>
+            <img alt="image" src="{{ url_for('static', filename='img/Login2.png') }}" width="50" align>
         </a>
     </p>
 
