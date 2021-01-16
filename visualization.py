@@ -4,20 +4,24 @@ import plotly.offline as py
 import plotly.graph_objects as go
 
 
-def make_edge(x, y, width):
+def make_edge(x, y, width, color):
     return go.Scatter(x = x,
                       y = y,
                       line = dict(width = width,
-                                  color = 'cornflowerblue'),
+                                  color = color),
                       hoverinfo = 'text',
                       text = "",
                       mode = 'lines')
 
 
 def plot(network_graph):
+    # GRAPH APPEARANCE SETTINGS
     node_size = 40
     edge_width = 5
     text_size = 10
+    line_color = "darkslategrey"
+    node_color = "#12813A"
+    node_border_color = "darkslategrey"
 
     # Force Directed Layout
     pos = nx.fruchterman_reingold_layout(network_graph)
@@ -31,7 +35,7 @@ def plot(network_graph):
         x0, y0 = pos[artist_1]
         x1, y1 = pos[artist_2]
 
-        trace = make_edge([x0, x1, None], [y0, y1, None], edge_width)
+        trace = make_edge([x0, x1, None], [y0, y1, None], edge_width, line_color)
         edge_trace.append(trace)
 
     # Make a node trace
@@ -43,14 +47,16 @@ def plot(network_graph):
                             mode = 'markers+text',
                             hoverinfo = 'none',
                             marker = dict(color = [],
+                                          opacity=1,
                                           size = [],
-                                          line = None))
-    # For each node in midsummer, get the position and size and add to the node_trace
+                                          line = dict(width=5,color=node_border_color)))
+
+
     for node in network_graph.nodes():
         x, y = pos[node]
         node_trace['x'] += tuple([x])
         node_trace['y'] += tuple([y])
-        node_trace['marker']['color'] += tuple(['cornflowerblue'])
+        node_trace['marker']['color'] += tuple([node_color])
         node_trace['marker']['size'] += tuple(node_size for node in range(0, len(network_graph.nodes())))
         node_trace['text'] += tuple(['<b>' + node + '</b>'])
 

@@ -79,7 +79,7 @@ def create_network_graph(artist_data, related_artist_data):
     G = nx.from_pandas_edgelist(df, 'source', 'target')
 
     # Draws the Graph (testing purposes)
-    nx.draw(G, with_labels=True)
-    plt.show()
+    # nx.draw(G, with_labels=True)
+    # plt.show()
 
     return G
