@@ -1,17 +1,46 @@
 # Example Used: https://github.com/drshrey/spotify-flask-auth-example
 
 import json
+
+import dash as dash
 from flask import Flask, request, redirect, render_template
 import requests
 from urllib.parse import quote
 from dotenv import load_dotenv
+import pandas as pd
+import dash
+import plotly.express as px
+import dash_html_components as html
+import dash_core_components as dcc
 
 load_dotenv()
 import os
 
 from util import filter_artist_data, filter_related_artist_data
 
-app = Flask(__name__)
+server = Flask(__name__)
+dashapp = dash.Dash(__name__, server = server, url_base_pathname = '/dash/')
+
+df = pd.DataFrame({
+    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+    "Amount": [4, 1, 2, 2, 4, 5],
+    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
+})
+
+fig = px.bar(df, x = "Fruit", y = "Amount", color = "City", barmode = "group")
+
+dashapp.layout = html.Div(children = [
+    html.H1(children = 'Hello Dash'),
+
+    html.Div(children = '''
+        Dash: A web application framework for Python.
+    '''),
+
+    dcc.Graph(
+        id = 'example-graph',
+        figure = fig
+    )
+])
 
 #  Client Keys
 CLIENT_ID = os.getenv("CLIENT_ID")
@@ -41,19 +70,19 @@ auth_query_parameters = {
 }
 
 
-@app.route("/")
+@server.route("/")
 def index():
     return render_template("index.html")
 
 
-@app.route("/login")
+@server.route("/login")
 def login():
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
     return redirect(auth_url)
 
 
-@app.route("/callback")
+@server.route("/callback")
 def callback():
     # Auth Step 4: Requests refresh and access tokens
     auth_token = request.args['code']
@@ -86,9 +115,9 @@ def callback():
     filtered_related_artists = {}
     filtered_related_artists = filter_related_artist_data(filtered_artists_data, filtered_related_artists, SPOTIFY_API_URL, authorization_header)
 
-    display_arr = [filtered_artists_data]
+    display_arr = [filtered_related_artists]
     return render_template("displaytest.html", sorted_array = display_arr)
 
 
 if __name__ == "__main__":
-    app.run(debug = True, port = PORT)
+    server.run(debug = True, port = PORT)
