@@ -33,7 +33,7 @@ def plot(network_graph, df):
     rcmd_artist_node_color = "yellow"
 
     # Force Directed Layout
-    pos = nx.spring_layout(network_graph, k=0.1)
+    pos = nx.kamada_kawai_layout(network_graph)
 
     # create edge trace
     edge_trace = []
