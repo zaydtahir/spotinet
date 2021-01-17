@@ -17,24 +17,25 @@ def make_edge(x, y, width, color):
 def plot(network_graph, df):
     # GRAPH APPEARANCE SETTINGS
     # General
-    edge_width = 2
-    text_size = 10
-    node_border_color = "darkslategrey"
-    line_color = "darkslategrey"
+    edge_width = 0.5
+    text_size = 15
+    node_border_color = "#385a7c"
+    line_color = "#385a7c"
     # Origin
-    origin_node_size = 60
-    origin_node_color = "dimgrey"
+    origin_node_size = 80
+    origin_node_color = "#385a7c"
     # Genre
-    genre_node_size = 20
-    genre_node_color = "#12813A"
+    genre_node_size = 40
+    genre_node_color = "#2596be"
     # Artist
-    artist_node_size = 10
-    your_artist_node_color = "red"
-    rcmd_artist_node_color = "yellow"
+    artist_node_size = 30
+    your_artist_node_color = "#f97171"
+    rcmd_artist_node_color = "#b2eee6"
 
     # Force Directed Layout
     pos = nx.kamada_kawai_layout(network_graph)
-
+    # pos = nx.spring_layout(network_graph, k=0.5)
+    
     # create edge trace
     edge_trace = []
     for edge in network_graph.edges():
@@ -89,8 +90,8 @@ def plot(network_graph, df):
 
     # Customize layout
     layout = go.Layout(
-        paper_bgcolor='rgba(0,0,0,0)',  # transparent background
-        plot_bgcolor='rgba(0,0,0,0)',  # transparent 2nd background
+        paper_bgcolor='white',  # transparent background
+        plot_bgcolor='white',  # transparent 2nd background
         xaxis={'showgrid': False, 'zeroline': False},  # no grid-lines
         yaxis={'showgrid': False, 'zeroline': False},  # no grid-lines
     )
