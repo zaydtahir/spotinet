@@ -25,7 +25,7 @@ def plot(network_graph, df):
     text_size = 10
     node_border_width = 1
     node_border_color = "#385a7c"
-    line_color = "#385a7c"
+    line_color = "#d3d3d3"
     # Origin
     origin_node_size = 60
     origin_node_color = "#385a7c"
