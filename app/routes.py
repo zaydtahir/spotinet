@@ -8,6 +8,8 @@ from flask import render_template
 from util import filter_artist_data, filter_related_artist_data, get_genre_list
 from constants import *
 
+authorization_header = None
+
 
 @app.route("/")
 def index():
@@ -42,6 +44,7 @@ def callback():
     # expires_in = response_data["expires_in"]
 
     # Auth Step 6: Use the access token to access Spotify API
+    global authorization_header
     authorization_header = {"Authorization": "Bearer {}".format(access_token)}
 
     # Get top Artists
@@ -64,3 +67,6 @@ def callback():
 
     # return render_template("displaytest.html")
     return redirect("/dashapp/")
+
+def get_auth_header():
+    return authorization_header

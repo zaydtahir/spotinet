@@ -14,26 +14,33 @@ def make_edge(x, y, width, color):
                       mode='lines')
 
 
+def handle_click(trace, points, state):
+    print(points.point_inds)
+
+
 def plot(network_graph, df):
     # GRAPH APPEARANCE SETTINGS
     # General
-    edge_width = 2
+    edge_width = 1
     text_size = 10
-    node_border_color = "darkslategrey"
-    line_color = "darkslategrey"
+    node_border_width = 1
+    node_border_color = "#385a7c"
+    line_color = "#d3d3d3"
     # Origin
     origin_node_size = 60
-    origin_node_color = "dimgrey"
+    origin_node_color = "#385a7c"
+    origin_text_size = 20
     # Genre
     genre_node_size = 20
-    genre_node_color = "#12813A"
+    genre_node_color = "#2596be"
     # Artist
     artist_node_size = 10
-    your_artist_node_color = "red"
-    rcmd_artist_node_color = "yellow"
+    your_artist_node_color = "#f97171"
+    rcmd_artist_node_color = "#b2eee6"
 
     # Force Directed Layout
-    pos = nx.spring_layout(network_graph, k=0.1)
+    pos = nx.kamada_kawai_layout(network_graph)
+    # pos = nx.spring_layout(network_graph, k=0.5)
 
     # create edge trace
     edge_trace = []
@@ -51,14 +58,16 @@ def plot(network_graph, df):
     node_trace = go.Scatter(x=[],
                             y=[],
                             text=[],
-                            textposition="top center",
-                            textfont_size=text_size,
+                            textposition=[],
+                            textfont_size=[],
+                            textfont=dict(color=[]
+                                          ),
                             mode='markers+text',
                             hoverinfo='text',
                             marker=dict(color=[],
                                         opacity=1,
                                         size=[],
-                                        line=dict(width=5, color=node_border_color)))
+                                        line=dict(width=node_border_width, color=node_border_color)))
 
     for node in network_graph.nodes():
         x, y = pos[node]
@@ -66,33 +75,46 @@ def plot(network_graph, df):
         node_trace['y'] += tuple([y])
 
         # Origin
-        #if df[str(node)] == 0:
-         #   node_trace['marker']['color'] += tuple([origin_node_color])
-          #  node_trace['marker']['size'] += tuple([origin_node_size])
+        if df[str(node)] == 0:
+            node_trace['textposition'] += tuple(['middle center'])
+            node_trace['textfont_size'] += tuple([origin_text_size])
+            node_trace['textfont']['color'] += tuple(['white'])
+            node_trace['marker']['color'] += tuple([origin_node_color])
+            node_trace['marker']['size'] += tuple([origin_node_size])
+            node_trace['text'] += tuple([''])
 
         # Genre
-        #elif df[str(node)] == 1:
-         #   node_trace['marker']['color'] += tuple([genre_node_color])
-          #  node_trace['marker']['size'] += tuple([genre_node_size])
+        elif df[str(node)] == 1:
+            node_trace['textposition'] += tuple(['top center'])
+            node_trace['textfont_size'] += tuple([text_size])
+            node_trace['textfont']['color'] += tuple([node_border_color])
+            node_trace['marker']['color'] += tuple([genre_node_color])
+            node_trace['marker']['size'] += tuple([genre_node_size])
+            node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
         # Your Artists
-        #elif df[str(node)] == 2:
-           # node_trace['marker']['color'] += tuple([your_artist_node_color])
-            #node_trace['marker']['size'] += tuple([artist_node_size])
+        elif df[str(node)] == 2:
+            node_trace['textposition'] += tuple(['top center'])
+            node_trace['textfont_size'] += tuple([text_size])
+            node_trace['textfont']['color'] += tuple([node_border_color])
+            node_trace['marker']['color'] += tuple([your_artist_node_color])
+            node_trace['marker']['size'] += tuple([artist_node_size])
+            node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
         # Recommended Artists
-        #elif df[str(node)] == 3:
-         #   node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
-          #  node_trace['marker']['size'] += tuple([artist_node_size])
+        elif df[str(node)] == 3:
+            node_trace['textposition'] += tuple(['top center'])
+            node_trace['textfont_size'] += tuple([text_size])
+            node_trace['textfont']['color'] += tuple([node_border_color])
+            node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
+            node_trace['marker']['size'] += tuple([artist_node_size])
+            node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
-        node_trace['marker']['color'] += tuple([your_artist_node_color])
-        node_trace['marker']['size'] += tuple([artist_node_size])
-        node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
     # Customize layout
     layout = go.Layout(
-        paper_bgcolor='rgba(0,0,0,0)',  # transparent background
-        plot_bgcolor='rgba(0,0,0,0)',  # transparent 2nd background
+        paper_bgcolor='white',  # transparent background
+        plot_bgcolor='white',  # transparent 2nd background
         xaxis={'showgrid': False, 'zeroline': False},  # no grid-lines
         yaxis={'showgrid': False, 'zeroline': False},  # no grid-lines
     )
@@ -111,9 +133,10 @@ def plot(network_graph, df):
     # Hover Update
     fig.update_layout(
         hoverlabel=dict(
-            bgcolor="white",
+            bgcolor="#2596be",
+            # bgcolor="#385a7c",
             font_size=16,
-            font_family="Rockwell"))
+            font_family="Verdana"))
     # Show figure
     # fig.show()
     return fig

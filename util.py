@@ -25,9 +25,12 @@ def filter_artist_data(artist_data: dict, filter_dict: dict):
 
 def get_genre_list(filtered_artist_data: dict, genre_list: list):
     for artist in filtered_artist_data:
-        for genre in filtered_artist_data[artist]['genres']:
-            if genre not in genre_list:
-                genre_list.append(genre)
+        #for genre in filtered_artist_data[artist]['genres']:
+        #    if genre not in genre_list:
+        #        genre_list.append(genre)
+        genre = filtered_artist_data[artist]['genres'][0]
+        if genre not in genre_list:
+            genre_list.append(genre)
     return genre_list
 
 
@@ -75,12 +78,13 @@ def build_dict(artist_data, related_artist_data, genre_list):
         name.append(artist_data[artist]["name"])
         node_type.append(2)
 
-    for artist in related_artist_data.keys():
-        try:
-            x = artist_data[artist]["name"]
-        except KeyError:
-            name.append(related_artist_data[artist]["name"])
-            node_type.append(3)
+    for related_artist in related_artist_data.keys():
+        for artist in related_artist_data[related_artist].keys():
+            try:
+                x = artist_data[artist]["name"]
+            except KeyError:
+                name.append(related_artist_data[related_artist][artist])
+                node_type.append(3)
 
     for i in range(0, len(name)):
         df[name[i]] = node_type[i]
@@ -108,9 +112,10 @@ def create_network_graph(artist_data, related_artist_data, genre_list):
 
     # Connect artist to genres
     for artist in artist_data.keys():
-        for genre in artist_data[artist]['genres']:
-            source.append(genre)
-            target.append(artist_data[artist]['name'])
+        #for genre in artist_data[artist]['genres']:
+        genre = artist_data[artist]['genres'][0]
+        source.append(genre)
+        target.append(artist_data[artist]['name'])
 
     # Connect artists together
     for related_artist in related_artist_data.keys():
