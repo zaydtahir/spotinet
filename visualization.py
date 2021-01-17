@@ -14,17 +14,26 @@ def make_edge(x, y, width, color):
                       mode='lines')
 
 
-def plot(network_graph):
+def plot(network_graph, df):
     # GRAPH APPEARANCE SETTINGS
-    node_size = 5
+    # General
     edge_width = 2
     text_size = 10
-    line_color = "darkslategrey"
-    node_color = "#12813A"
     node_border_color = "darkslategrey"
+    line_color = "darkslategrey"
+    # Origin
+    origin_node_size = 60
+    origin_node_color = "dimgrey"
+    # Genre
+    genre_node_size = 20
+    genre_node_color = "#12813A"
+    # Artist
+    artist_node_size = 10
+    your_artist_node_color = "red"
+    rcmd_artist_node_color = "yellow"
 
     # Force Directed Layout
-    pos = nx.fruchterman_reingold_layout(network_graph)
+    pos = nx.spring_layout(network_graph, k=0.1)
 
     # create edge trace
     edge_trace = []
@@ -42,29 +51,50 @@ def plot(network_graph):
     node_trace = go.Scatter(x=[],
                             y=[],
                             text=[],
-                            textposition="middle center",
+                            textposition="top center",
                             textfont_size=text_size,
                             mode='markers+text',
                             hoverinfo='text',
                             marker=dict(color=[],
-                                          opacity=1,
-                                          size=[],
-                                          line=dict(width=5, color=node_border_color)))
+                                        opacity=1,
+                                        size=[],
+                                        line=dict(width=5, color=node_border_color)))
 
     for node in network_graph.nodes():
         x, y = pos[node]
         node_trace['x'] += tuple([x])
         node_trace['y'] += tuple([y])
-        node_trace['marker']['color'] += tuple([node_color])
-        node_trace['marker']['size'] += tuple(node_size for node in range(0, len(network_graph.nodes())))
+
+        # Origin
+        #if df[str(node)] == 0:
+         #   node_trace['marker']['color'] += tuple([origin_node_color])
+          #  node_trace['marker']['size'] += tuple([origin_node_size])
+
+        # Genre
+        #elif df[str(node)] == 1:
+         #   node_trace['marker']['color'] += tuple([genre_node_color])
+          #  node_trace['marker']['size'] += tuple([genre_node_size])
+
+        # Your Artists
+        #elif df[str(node)] == 2:
+           # node_trace['marker']['color'] += tuple([your_artist_node_color])
+            #node_trace['marker']['size'] += tuple([artist_node_size])
+
+        # Recommended Artists
+        #elif df[str(node)] == 3:
+         #   node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
+          #  node_trace['marker']['size'] += tuple([artist_node_size])
+
+        node_trace['marker']['color'] += tuple([your_artist_node_color])
+        node_trace['marker']['size'] += tuple([artist_node_size])
         node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
     # Customize layout
     layout = go.Layout(
         paper_bgcolor='rgba(0,0,0,0)',  # transparent background
         plot_bgcolor='rgba(0,0,0,0)',  # transparent 2nd background
-        xaxis={'showgrid': False, 'zeroline': False},  # no gridlines
-        yaxis={'showgrid': False, 'zeroline': False},  # no gridlines
+        xaxis={'showgrid': False, 'zeroline': False},  # no grid-lines
+        yaxis={'showgrid': False, 'zeroline': False},  # no grid-lines
     )
     # Create figure
     fig = go.Figure(layout=layout)

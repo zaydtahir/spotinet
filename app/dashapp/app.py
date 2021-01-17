@@ -21,9 +21,9 @@ def init_dash(server):
 
 
 def update_dash(artist_data, related_artist_data, genre_list):
-    df = build_df(artist_data, related_artist_data, genre_list)
+    df = build_dict(artist_data, related_artist_data, genre_list)
     G = create_network_graph(artist_data, related_artist_data, genre_list)
-    fig = plot(G)
+    fig = plot(G, df)
     dash_app.layout = html.Div(
         dcc.Graph(figure=fig, style={'height': '100vh'}),
         style={'height': '100vh'}
