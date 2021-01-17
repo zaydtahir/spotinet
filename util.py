@@ -75,12 +75,13 @@ def build_dict(artist_data, related_artist_data, genre_list):
         name.append(artist_data[artist]["name"])
         node_type.append(2)
 
-    for artist in related_artist_data.keys():
-        try:
-            x = artist_data[artist]["name"]
-        except KeyError:
-            name.append(related_artist_data[artist]["name"])
-            node_type.append(3)
+    for related_artist in related_artist_data.keys():
+        for artist in related_artist_data[related_artist].keys():
+            try:
+                x = artist_data[artist]["name"]
+            except KeyError:
+                name.append(related_artist_data[related_artist][artist])
+                node_type.append(3)
 
     for i in range(0, len(name)):
         df[name[i]] = node_type[i]

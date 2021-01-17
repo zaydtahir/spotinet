@@ -64,29 +64,28 @@ def plot(network_graph, df):
         x, y = pos[node]
         node_trace['x'] += tuple([x])
         node_trace['y'] += tuple([y])
+        print(df)
 
         # Origin
-        #if df[str(node)] == 0:
-         #   node_trace['marker']['color'] += tuple([origin_node_color])
-          #  node_trace['marker']['size'] += tuple([origin_node_size])
+        if df[str(node)] == 0:
+            node_trace['marker']['color'] += tuple([origin_node_color])
+            node_trace['marker']['size'] += tuple([origin_node_size])
 
         # Genre
-        #elif df[str(node)] == 1:
-         #   node_trace['marker']['color'] += tuple([genre_node_color])
-          #  node_trace['marker']['size'] += tuple([genre_node_size])
+        elif df[str(node)] == 1:
+            node_trace['marker']['color'] += tuple([genre_node_color])
+            node_trace['marker']['size'] += tuple([genre_node_size])
 
         # Your Artists
-        #elif df[str(node)] == 2:
-           # node_trace['marker']['color'] += tuple([your_artist_node_color])
-            #node_trace['marker']['size'] += tuple([artist_node_size])
+        elif df[str(node)] == 2:
+            node_trace['marker']['color'] += tuple([your_artist_node_color])
+            node_trace['marker']['size'] += tuple([artist_node_size])
 
         # Recommended Artists
-        #elif df[str(node)] == 3:
-         #   node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
-          #  node_trace['marker']['size'] += tuple([artist_node_size])
+        elif df[str(node)] == 3:
+            node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
+            node_trace['marker']['size'] += tuple([artist_node_size])
 
-        node_trace['marker']['color'] += tuple([your_artist_node_color])
-        node_trace['marker']['size'] += tuple([artist_node_size])
         node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
     # Customize layout
