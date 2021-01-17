@@ -30,11 +30,11 @@ def update_dash(artist_data, related_artist_data, genre_list):
     G = create_network_graph(artist_data, related_artist_data, genre_list)
     fig = plot(G, df)
     dash_app.layout = html.Div([
-        dcc.Graph(id = 'graph', figure = fig, style = {'height': '100vh', 'width': '80%', 'left': '0', 'margin-left': '0px', 'display': 'inline-block'}),
+        dcc.Graph(id = 'graph', figure = fig, style = {'height': '100vh', 'width': '90%', 'left': '0', 'margin-left': '0px', 'display': 'inline-block'}),
         html.Div([
-            html.A(html.P(id = 'artist-name', style = {}), id = 'artist-link', target = '_blank'),
-            html.Img(id = 'artist-image', style = {'height': '10vh'})
-        ], style = {'display': 'inline-block', 'top': '0'}),
+            html.A(html.Button(id = 'artist-name', style = {'display': 'none'}), id = 'artist-link', target = '_blank'),
+            html.Img(id = 'artist-image', style = {'width': '95%'})
+        ], style = {'display': 'inline-block', 'top': '300px', 'position': 'fixed'}),
     ],
         style = {'height': '100vh'}
     )
@@ -43,6 +43,7 @@ def update_dash(artist_data, related_artist_data, genre_list):
 def init_callbacks(dash_app):
     @dash_app.callback(
         Output('artist-name', 'children'),
+        Output('artist-name', 'style'),
         Output('artist-image', 'src'),
         Output('artist-link', 'href'),
         Input('graph', 'clickData'))
@@ -57,4 +58,7 @@ def init_callbacks(dash_app):
             artist_data = json.loads(artist_response.text)
             artist_data = artist_data['artists']['items'][0]
 
-            return artist_name, artist_data['images'][0]['url'], artist_data['external_urls']['spotify']
+            return artist_name, {
+                'width': '95%', 'background-color': '#f97171', 'border': 'none', 'color': 'white',
+                'padding': '30 px 32 px', 'text-align': 'center', 'text-decoration': 'none', 'font-size': '16px'
+            },  artist_data['images'][0]['url'], artist_data['external_urls']['spotify']
