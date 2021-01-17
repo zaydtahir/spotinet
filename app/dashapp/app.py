@@ -34,7 +34,7 @@ def update_dash(artist_data, related_artist_data, genre_list):
         html.Div([
             html.A(html.P(id = 'artist-name', style = {}), id = 'artist-link', target = '_blank'),
             html.Img(id = 'artist-image', style = {'height': '10vh'})
-        ], style = {'display': 'inline-block', 'vertical-align': 'middle'}),
+        ], style = {'display': 'inline-block', 'top': '0'}),
     ],
         style = {'height': '100vh'}
     )
@@ -47,7 +47,6 @@ def init_callbacks(dash_app):
         Output('artist-link', 'href'),
         Input('graph', 'clickData'))
     def display_click_data(clickData):
-        print(clickData)
         if clickData['points'][0]['marker.color'] not in ['#b2eee6','#f97171']:
             return
         else:
