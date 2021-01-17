@@ -14,6 +14,10 @@ def make_edge(x, y, width, color):
                       mode='lines')
 
 
+def handle_click(trace, points, state):
+    print(points.point_inds)
+
+
 def plot(network_graph, df):
     # GRAPH APPEARANCE SETTINGS
     # General

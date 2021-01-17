@@ -6,9 +6,10 @@ import plotly.express as px
 import dash_html_components as html
 import dash_core_components as dcc
 import dash
+from dash.dependencies import Input, Output
 
 from util import *
-from visualization import plot
+from visualization import *
 
 
 def init_dash(server):
