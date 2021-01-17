@@ -81,6 +81,7 @@ def plot(network_graph, df):
             node_trace['textfont']['color'] += tuple(['white'])
             node_trace['marker']['color'] += tuple([origin_node_color])
             node_trace['marker']['size'] += tuple([origin_node_size])
+            node_trace['text'] += tuple([''])
 
         # Genre
         elif df[str(node)] == 1:
@@ -89,6 +90,7 @@ def plot(network_graph, df):
             node_trace['textfont']['color'] += tuple([node_border_color])
             node_trace['marker']['color'] += tuple([genre_node_color])
             node_trace['marker']['size'] += tuple([genre_node_size])
+            node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
         # Your Artists
         elif df[str(node)] == 2:
@@ -97,6 +99,7 @@ def plot(network_graph, df):
             node_trace['textfont']['color'] += tuple([node_border_color])
             node_trace['marker']['color'] += tuple([your_artist_node_color])
             node_trace['marker']['size'] += tuple([artist_node_size])
+            node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
         # Recommended Artists
         elif df[str(node)] == 3:
@@ -105,8 +108,8 @@ def plot(network_graph, df):
             node_trace['textfont']['color'] += tuple([node_border_color])
             node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
             node_trace['marker']['size'] += tuple([artist_node_size])
+            node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
-        node_trace['text'] += tuple(['<b>' + node + '</b>'])
 
     # Customize layout
     layout = go.Layout(
