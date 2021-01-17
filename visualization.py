@@ -29,6 +29,7 @@ def plot(network_graph, df):
     # Origin
     origin_node_size = 60
     origin_node_color = "#385a7c"
+    origin_text_size = 20
     # Genre
     genre_node_size = 20
     genre_node_color = "#2596be"
@@ -57,8 +58,10 @@ def plot(network_graph, df):
     node_trace = go.Scatter(x=[],
                             y=[],
                             text=[],
-                            textposition="top center",
-                            textfont_size=text_size,
+                            textposition=[],
+                            textfont_size=[],
+                            textfont=dict(color=[]
+                                          ),
                             mode='markers+text',
                             hoverinfo='text',
                             marker=dict(color=[],
@@ -73,21 +76,33 @@ def plot(network_graph, df):
 
         # Origin
         if df[str(node)] == 0:
+            node_trace['textposition'] += tuple(['middle center'])
+            node_trace['textfont_size'] += tuple([origin_text_size])
+            node_trace['textfont']['color'] += tuple(['white'])
             node_trace['marker']['color'] += tuple([origin_node_color])
             node_trace['marker']['size'] += tuple([origin_node_size])
 
         # Genre
         elif df[str(node)] == 1:
+            node_trace['textposition'] += tuple(['top center'])
+            node_trace['textfont_size'] += tuple([text_size])
+            node_trace['textfont']['color'] += tuple([node_border_color])
             node_trace['marker']['color'] += tuple([genre_node_color])
             node_trace['marker']['size'] += tuple([genre_node_size])
 
         # Your Artists
         elif df[str(node)] == 2:
+            node_trace['textposition'] += tuple(['top center'])
+            node_trace['textfont_size'] += tuple([text_size])
+            node_trace['textfont']['color'] += tuple([node_border_color])
             node_trace['marker']['color'] += tuple([your_artist_node_color])
             node_trace['marker']['size'] += tuple([artist_node_size])
 
         # Recommended Artists
         elif df[str(node)] == 3:
+            node_trace['textposition'] += tuple(['top center'])
+            node_trace['textfont_size'] += tuple([text_size])
+            node_trace['textfont']['color'] += tuple([node_border_color])
             node_trace['marker']['color'] += tuple([rcmd_artist_node_color])
             node_trace['marker']['size'] += tuple([artist_node_size])
 
