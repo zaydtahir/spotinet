@@ -55,16 +55,17 @@ def filter_related_artist_data(artist_data: dict, filter_dict: dict, spotify_api
     return filter_dict
 
 
-def build_df(artist_data, related_artist_data, genre_list):
+def build_dict(artist_data, related_artist_data, genre_list):
     """
     :param artist_data: Dict of top artists with name and image
     :param related_artist_data: Dict of artist Id's connected to list of related artists
     :param genre_list: List of Genres User listens to
-    :return: Pandas Data Frame with node types mapped to node names
+    :return: Dict with node types mapped to node names
     """
     # node types: 0 = origin, 1 = genre, 2 = artist, 3 = related artist
     name = ["You"]
     node_type = [0]
+    df = {}
 
     for genre in genre_list:
         name.append(genre)
@@ -81,7 +82,8 @@ def build_df(artist_data, related_artist_data, genre_list):
             name.append(related_artist_data[artist]["name"])
             node_type.append(3)
 
-    df = pd.DataFrame(list(zip(name, node_type)), columns=['name', 'node_type'])
+    for i in range(0, len(name)):
+        df[name[i]] = node_type[i]
 
     return df
 
