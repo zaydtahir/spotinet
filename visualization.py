@@ -111,9 +111,10 @@ def plot(network_graph, df):
     # Hover Update
     fig.update_layout(
         hoverlabel=dict(
-            bgcolor="white",
+            bgcolor="#2596be",
+            # bgcolor="#385a7c",
             font_size=16,
-            font_family="Rockwell"))
+            font_family="Verdana"))
     # Show figure
     # fig.show()
     return fig
