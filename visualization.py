@@ -19,6 +19,7 @@ def plot(network_graph, df):
     # General
     edge_width = 0.5
     text_size = 10
+    node_border_width = 1
     node_border_color = "#385a7c"
     line_color = "#385a7c"
     # Origin
@@ -59,7 +60,7 @@ def plot(network_graph, df):
                             marker=dict(color=[],
                                         opacity=1,
                                         size=[],
-                                        line=dict(width=5, color=node_border_color)))
+                                        line=dict(width=node_border_width, color=node_border_color)))
 
     for node in network_graph.nodes():
         x, y = pos[node]
