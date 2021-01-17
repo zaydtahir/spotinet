@@ -17,7 +17,7 @@ def make_edge(x, y, width, color):
 def plot(network_graph, df):
     # GRAPH APPEARANCE SETTINGS
     # General
-    edge_width = 0.5
+    edge_width = 1
     text_size = 10
     node_border_width = 1
     node_border_color = "#385a7c"
