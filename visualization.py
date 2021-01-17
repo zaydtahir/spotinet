@@ -64,7 +64,6 @@ def plot(network_graph, df):
         x, y = pos[node]
         node_trace['x'] += tuple([x])
         node_trace['y'] += tuple([y])
-        print(df)
 
         # Origin
         if df[str(node)] == 0:
